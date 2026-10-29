@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorry, Rachelle Hope 💗</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#ffe4ef;--bg2:#ffc2da;--card:#fff;--ink:#6b1f43;--soft:#a14a73;--pink:#ff5fa2;--pink2:#ff8fc0;--chip:#fff0f6;--line:#ffc7dd;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2b1020;--bg2:#431a33;--card:#3a1a2e;--ink:#ffe3ef;--soft:#f3a9c8;--chip:#4d2340;--line:#6b2f55}}
+:root[data-theme="dark"]{--bg1:#2b1020;--bg2:#431a33;--card:#3a1a2e;--ink:#ffe3ef;--soft:#f3a9c8;--chip:#4d2340;--line:#6b2f55}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:'Quicksand',system-ui,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2));display:flex;justify-content:center;padding:20px 14px 40px;overflow-x:hidden}
+main{width:100%;max-width:440px}
+h1{font-family:'Pacifico',cursive;font-weight:400;font-size:2.1rem;text-align:center;margin:8px 0 2px;color:var(--pink)}
+.sub{text-align:center;color:var(--soft);margin:0 0 18px;font-weight:700}
+.card{background:var(--card);border-radius:24px;padding:18px;margin-bottom:16px;box-shadow:0 8px 24px rgba(255,95,162,.2);border:2px solid var(--line)}
+h2{font-size:1.05rem;margin:0 0 10px}
+.note{line-height:1.55;margin:0}
+.big{display:block;width:100%;border:0;border-radius:999px;padding:14px;font:700 1.05rem 'Quicksand',sans-serif;color:#fff;background:linear-gradient(135deg,var(--pink),var(--pink2));cursor:pointer;box-shadow:0 6px 0 #e0488a;transition:transform .1s}
+.big:active{transform:translateY(4px);box-shadow:0 2px 0 #e0488a}
+.meter{height:18px;border-radius:999px;background:var(--chip);border:2px solid var(--line);overflow:hidden;margin:12px 0 6px}
+.meter div{height:100%;width:0;background:linear-gradient(90deg,var(--pink2),var(--pink));transition:width .3s}
+.msg{text-align:center;color:var(--soft);font-weight:700;margin:0;min-height:1.4em}
+.coupons{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cp{border:2px dashed var(--pink);background:var(--chip);color:var(--ink);border-radius:16px;padding:12px 8px;font:700 .92rem 'Quicksand',sans-serif;cursor:pointer;text-align:center}
+.cp.on{background:var(--pink);color:#fff;border-style:solid}
+.ask{text-align:center}
+.btns{display:flex;gap:12px;justify-content:center;align-items:center;min-height:56px;position:relative}
+.yes{border:0;border-radius:999px;padding:12px 28px;font:700 1rem 'Quicksand',sans-serif;color:#fff;background:var(--pink);cursor:pointer}
+.no{border:2px solid var(--line);border-radius:999px;padding:12px 24px;font:700 1rem 'Quicksand',sans-serif;color:var(--soft);background:var(--chip);cursor:pointer;transition:transform .2s}
+.heart{position:fixed;pointer-events:none;font-size:24px;animation:fly 1.6s ease-out forwards;z-index:9}
+@keyframes fly{to{transform:translate(var(--x),-260px) scale(1.4) rotate(var(--r));opacity:0}}
+.foot{text-align:center;color:var(--soft);font-size:.85rem;margin-top:6px}
+</style>
+</head>
+<body>
+<main>
+  <h1>I’m Sorry 💗</h1>
+  <p class="sub">for Rachelle Hope</p>
+
+  <section class="card">
+    <h2>🌸 A little note</h2>
+    <p class="note">Rachelle, I know I messed up, and I’m really, truly sorry. You mean so much to me, and I never want to make you feel sad. I’ll do better. Promise! 🥺</p>
+  </section>
+
+  <section class="card">
+    <h2>🎀 Sorry meter</h2>
+    <button class="big" id="send">Send a sorry 💌</button>
+    <div class="meter"><div id="fill"></div></div>
+    <p class="msg" id="meterMsg">Tap the button to fill the meter!</p>
+  </section>
+
+  <section class="card">
+    <h2>🎟️ Make-it-up coupons (tap to claim)</h2>
+    <div class="coupons">
+      <button class="cp">🍌 Banana cake</button>
+      <button class="cp">🍵 Tea</button>
+      <button class="cp">🍵 Matcha</button>
+      <button class="cp">🎤 1 cover song</button>
+    </div>
+    <p class="msg" id="cpMsg"></p>
+  </section>
+
+  <section class="card ask">
+    <h2>Do you forgive me? 🥹</h2>
+    <div class="btns" id="btns">
+      <button class="yes" id="yes">Yes 💕</button>
+      <button class="no" id="no">No</button>
+    </div>
+    <p class="msg" id="ans"></p>
+  </section>
+  <p class="foot">Made with love 🌷</p>
+</main>
+<script>
+function hearts(n,ox,oy){
+  var e=['💗','💖','💕','🌸','🎀'];
+  for(var i=0;i<n;i++){
+    var h=document.createElement('div');h.className='heart';
+    h.textContent=e[Math.floor(Math.random()*e.length)];
+    h.style.left=(ox+(Math.random()*60-30))+'px';h.style.top=oy+'px';
+    h.style.setProperty('--x',(Math.random()*160-80)+'px');
+    h.style.setProperty('--r',(Math.random()*60-30)+'deg');
+    h.style.animationDelay=(Math.random()*.3)+'s';
+    document.body.appendChild(h);
+    setTimeout(function(x){return function(){x.remove()}}(h),2200);
+  }
+}
+var level=0,lines=['A tiny sorry 🥺','Getting bigger…','Sooo sorry 💗','Almost full!','SORRY OVERLOAD! 💖💖💖'];
+document.getElementById('send').onclick=function(ev){
+  level=Math.min(level+20,100);
+  document.getElementById('fill').style.width=level+'%';
+  document.getElementById('meterMsg').textContent=lines[level/20-1];
+  hearts(level==100?12:5,ev.clientX,ev.clientY);
+};
+var cps=document.querySelectorAll('.cp');
+cps.forEach(function(b){b.onclick=function(){
+  b.classList.toggle('on');
+  var n=document.querySelectorAll('.cp.on').length;
+  document.getElementById('cpMsg').textContent=n?('You claimed '+n+' coupon'+(n>1?'s':'')+'! 🎉'):'';
+}});
+var no=document.getElementById('no'),btns=document.getElementById('btns');
+function dodge(){
+  var w=btns.clientWidth-no.offsetWidth;
+  no.style.position='absolute';
+  no.style.left=Math.max(0,Math.random()*w)+'px';
+  no.style.top=(Math.random()*20)+'px';
+}
+no.onmouseenter=dodge;no.onclick=dodge;no.ontouchstart=function(e){e.preventDefault();dodge()};
+document.getElementById('yes').onclick=function(ev){
+  document.getElementById('ans').textContent='Yay!! Thank you, Rachelle! I love you 💖';
+  no.style.display='none';
+  hearts(18,ev.clientX,ev.clientY);
+};
+</script>
+</body>
+</html>
